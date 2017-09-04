@@ -39,10 +39,6 @@ server <- function(input, output) {
   # Subset data
   selected_trends <- reactive({
     req(input$zipcode)
-    
-    MedianListingPrice_new <- sqldf(paste("select * from MedianListingPrice where RegionName=",input$zipcode))
-    MedianSoldPrice_new <- sqldf(paste("select * from MedianSoldPrice where RegionName=",input$zipcode))
-    
   })
   
   
@@ -67,7 +63,9 @@ server <- function(input, output) {
     
     y1 <- min(min(na.omit(a)),min(na.omit(b)))
     y2 <- max(max(na.omit(a)),max(na.omit(b)))
-    plot(z.MedianListingPrice_new, type="l" , col="blue",ylim=c(y1,y2),yaxt="n", lwd=2) #, main=paste("Zipcode ",z.MedianSoldPrice_new$RegonName))
+    desc1 <- paste("Zillow price Trend for", MedianSoldPrice_new$City,MedianSoldPrice_new$State, MedianSoldPrice_new$RegionName)
+    
+    plot(z.MedianListingPrice_new, type="l" , col="blue",ylim=c(y1,y2),yaxt="n", lwd=2, main=desc1) #, main=paste("Zipcode ",z.MedianSoldPrice_new$RegonName))
     myTicks = axTicks(2)
     axis(2, at = myTicks, labels = formatC(myTicks, format = 'd'))
     #axis(2,at=myTicks,labels=format(myTicks,scientific=FALSE))
